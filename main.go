@@ -3,7 +3,9 @@ package main
 import (
 	// "io/ioutil"
 	"bufio"
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
@@ -41,6 +43,11 @@ func main() {
 	fmt.Println("Loaded...\nUK words:", len(ukWords), "US words:", len(usWords))
 
 	// scan through the file
+	if os.Args[2] == "uk" {
+		accentify(usWords, ukWords)
+	} else if os.Args[2] == "us" {
+		accentify(ukWords, usWords)
+	}
 
 }
 
@@ -54,4 +61,26 @@ func readLine(path string) (lines []string) {
 		lines = append(lines, scanner.Text())
 	}
 	return
+}
+
+func accentify(findWordList, replaceWordList []string) {
+
+	path := os.Args[1]
+	input, err := ioutil.ReadFile(path)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	output := make([]byte, len(input))
+	copy(output, input)
+	fmt.Printf("%s\n", output)
+	for i := 0; i < len(findWordList); i++ {
+		output = bytes.Replace(output, []byte(findWordList[i]), []byte(replaceWordList[i]), -1)
+	}
+
+	if err = ioutil.WriteFile("output.md", output, 0666); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
