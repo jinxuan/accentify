@@ -8,3 +8,18 @@ go build
 ## uk = American -> British
 ## us = British -> American
 ```
+
+
+Example
+=======
+`./accentify test.md us` will turn
+
+```
+favourite ice cream.
+```
+
+to 
+
+```
+favorite ice cream.
+```
