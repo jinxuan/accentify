@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "io/ioutil"
 	"bufio"
 	"bytes"
 	"fmt"
@@ -56,7 +55,6 @@ func readLine(path string) (lines []string) {
 	inFile, _ := os.Open(path)
 	defer inFile.Close()
 	scanner := bufio.NewScanner(inFile)
-	// scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
@@ -74,7 +72,6 @@ func accentify(findWordList, replaceWordList []string) {
 
 	output := make([]byte, len(input))
 	copy(output, input)
-	fmt.Printf("%s\n", output)
 	for i := 0; i < len(findWordList); i++ {
 		output = bytes.Replace(output, []byte(findWordList[i]), []byte(replaceWordList[i]), -1)
 	}
